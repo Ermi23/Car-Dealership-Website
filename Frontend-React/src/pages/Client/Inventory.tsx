@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import Navbar from '../components/default/Navbar';
-import InventoryCars from '../components/Inventory/InventoryCars';
-import VehicleFilters from '../components/Inventory/car-filtters';
-import Footer from '../components/default/Footer';
+import Navbar from '../../components/Client/Layout/Navbar';
+import InventoryCars from '../../components/Client/Inventory/InventoryCars';
+import VehicleFilters from '../../components/Client/Inventory/car-filtters';
+import Footer from '../../components/Client/Layout/Footer';
 
 const Inventory: React.FC = () => {
     const [filters, setFilters] = useState({

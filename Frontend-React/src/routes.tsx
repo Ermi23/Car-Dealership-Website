@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import FeaturedCars from './components/home/FeaturedCars';
-import Home from './pages/Home';
-import Inventory from './pages/Inventory';
-import ContactUs from './pages/contactUs';
-import AboutUs from './pages/aboutUs';
-import CarShow from './pages/Carshow';
+import FeaturedCars from './components/Client/home/FeaturedCars';
+import Home from './pages/Client/Home';
+import Inventory from './pages/Client/Inventory';
+import ContactUs from './pages/Client/contactUs';
+import AboutUs from './pages/Client/aboutUs';
+import CarShow from './pages/Client/Carshow';
 import Login from './pages/Login';
 import SignUp from './pages/Signup';
-import AdminDashboard from './pages/Admin/dashboard/AdminDashboard';
 
 // import Dashboard from './pages/Admin/dashboard/Dashboard';
 
@@ -30,7 +29,6 @@ const AppRoutes: React.FC = () => {
 
             //Admin Routes
 
-            <Route path="/admin-dashboard" element={<AdminDashboard />} />
         </Routes>
     );
 };

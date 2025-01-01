@@ -1,9 +1,9 @@
-import Navbar from '../components/default/Navbar';
-import ContactForm from '../components/contactUs/contact-form';
-import ContactInfo from '../components/contactUs/contact-info';
-import LocationMap from '../components/default/LocationMap';
-import Footer from '../components/default/Footer';
-import AboutUs from '../components/AboutUs/about-us';
+import Navbar from '../../components/Client/Layout/Navbar';
+import ContactForm from '../../components/Client/contactUs/contact-form';
+import ContactInfo from '../../components/Client/contactUs/contact-info';
+import LocationMap from '../../components/Client/Layout/LocationMap';
+import Footer from '../../components/Client/Layout/Footer';
+import AboutUs from '../../components/Client/AboutUs/about-us';
 import imageSrc from '../assets/pexels-tdcat-70912.jpg';
 
 export default function aboutPage() {

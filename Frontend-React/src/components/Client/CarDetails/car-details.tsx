@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import apiClient from '../../api/axios';
+import apiClient from '../../../api/axios';
 import type { CarDetails } from './car'
 
 function CarDetailsPage({ id }: { id: number }) {

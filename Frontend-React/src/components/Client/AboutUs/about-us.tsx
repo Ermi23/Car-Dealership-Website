@@ -1,4 +1,4 @@
-import imageSrc from '../../assets/image.png';
+import imageSrc from '../../../assets/image.png';
 
 export default function AboutUs() {
     return (

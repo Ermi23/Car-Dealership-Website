@@ -1,12 +1,12 @@
 
 // Home.tsx
 import React, { useState } from 'react';
-import Navbar from '../components/default/Navbar';
-import FeaturedCars from '../components/home/FeaturedCars';
-import LocationMap from '../components/default/LocationMap';
-import Intro from '../components/home/Intro';
-import Footer from '../components/default/Footer';
-import BrandNames from '../components/home/BrandName';
+import Navbar from '../../components/Client/Layout/Navbar';
+import FeaturedCars from '../../components/Client/home/FeaturedCars';
+import LocationMap from '../../components/Client/Layout/LocationMap';
+import Intro from '../../components/Client/home/Intro';
+import Footer from '../../components/Client/Layout/Footer';
+import BrandNames from '../../components/Client/home/BrandName';
 
 
 const Home: React.FC = () => {

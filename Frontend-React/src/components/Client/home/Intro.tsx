@@ -4,7 +4,7 @@ import React from 'react'
 import { MessageCircle, Car, Zap, CarFront, Truck, CarTaxiFront } from 'lucide-react'
 import { motion } from 'framer-motion'
 // import imageSrc from '.../assets/pexels-tdcat-70912.jpg'; // Adjust the path as necessary
-import imageSrc from '../../assets/pexels-tdcat-70912.jpg';
+import imageSrc from '../../../assets/pexels-tdcat-70912.jpg';
 
 interface VehicleCategory {
     icon: React.ReactNode

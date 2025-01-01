@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 // import imageSrc from '.../assets/image.png'; // Adjust the path as necessary
-import imageSrc from '../../assets/image.png';
+import imageSrc from '../../../assets/image.png';
 import { Facebook, Twitter, Instagram, MessageCircle, Linkedin, Menu, X } from 'lucide-react';
 
 interface NavbarProps {
@@ -37,13 +37,13 @@ const Navbar: React.FC = () => {
                 <div className="flex justify-between items-center">
 
                     {/* Logo */}
-                    <div className="flex-shrink-0">
+                    <a href="/" className="flex-shrink-0">
                         <img
                             src={imageSrc} // Use the imported image here
                             alt="Solomon Auto-Sell"
                             className="w-16 h-16 rounded-full" // Adjusted size and added rounded-full
                         />
-                    </div>
+                    </a>
 
                     {/* Desktop Navigation */}
                     <div className="hidden md:flex space-x-6 flex-grow justify-center">

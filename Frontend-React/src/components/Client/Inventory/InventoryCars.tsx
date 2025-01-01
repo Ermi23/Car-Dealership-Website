@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Calendar, GitFork, Car } from 'lucide-react';
 import { motion } from 'framer-motion';
-import apiClient from '../../api/axios';
+import apiClient from '../../../api/axios';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate instead
 
 interface CarImage {

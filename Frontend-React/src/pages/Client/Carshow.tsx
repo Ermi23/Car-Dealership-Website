@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import Navbar from '../components/default/Navbar';
-import CarDetailsPage from '../components/CarDetails/car-details';
-import Footer from '../components/default/Footer';
+import Navbar from '../../components/Client/Layout/Navbar';
+import CarDetailsPage from '../../components/Client/CarDetails/car-details';
+import Footer from '../../components/Client/Layout/Footer';
 import { useParams } from 'react-router-dom';
 
 const CarShow: React.FC = () => {
