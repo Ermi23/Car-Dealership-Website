@@ -84,14 +84,39 @@ const FeaturedCars: React.FC<InventoryCarsProps> = ({ title = 'Top Picks', filte
         }
     };
 
+    // const handleViewDetails = async (carId: number) => {
+    //     try {
+    //         const response = await apiClient.get(`/car-detail/${carId}`);
+    //         // Navigate to the car detail page
+    //         navigate(`/car-detail/${carId}`); // Use navigate instead of history.push
+    //     } catch (error) {
+    //         console.error('Error fetching car details:', error);
+    //         // Handle error (e.g., show a notification)
+    //     }
+    // };
+
     const handleViewDetails = async (carId: number) => {
         try {
+            console.log('Attempting to fetch car details...');
             const response = await apiClient.get(`/car-detail/${carId}`);
-            // Navigate to the car detail page
-            navigate(`/car-detail/${carId}`); // Use navigate instead of history.push
-        } catch (error) {
+            console.log('Response received:', response);
+
+            if (response?.data?.message === 'Unauthenticated.') {
+                console.log('Unauthenticated. Redirecting to login page.');
+                navigate('/login');
+            } else {
+                navigate(`/car-detail/${carId}`); // Navigate to the car detail page
+            }
+        } catch (error: any) {
             console.error('Error fetching car details:', error);
-            // Handle error (e.g., show a notification)
+
+            if (error?.response?.status === 401 || error?.response?.data?.message === 'Unauthenticated.') {
+                console.log('Error indicates unauthentication. Redirecting to login page.');
+                navigate('/login');
+            } else {
+                // Handle other types of errors (e.g., show a notification)
+                console.error('Unexpected error:', error);
+            }
         }
     };
 

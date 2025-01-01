@@ -44,7 +44,7 @@ export default function LoginPage() {
             localStorage.setItem('token', response.data.token); // Adjust based on your response structure
 
             // Redirect to dashboard after successful login
-            window.location.href = '/inventory';
+            window.location.href = '/dashboard';
         } catch (error: any) {
             setIsLoading(false);
             console.error('Login failed:', error.response?.data || error.message);

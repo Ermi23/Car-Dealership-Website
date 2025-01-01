@@ -9,7 +9,7 @@ import CarShow from './pages/Client/Carshow';
 import Login from './pages/Login';
 import SignUp from './pages/Signup';
 
-// import Dashboard from './pages/Admin/dashboard/Dashboard';
+import Dashboard from './pages/Administrator/Dashboard';
 
 const AppRoutes: React.FC = () => {
 
@@ -22,12 +22,11 @@ const AppRoutes: React.FC = () => {
             <Route path="/inventory" element={<Inventory />} />
             <Route path="/contactus" element={<ContactUs />} />
             <Route path="/aboutus" element={<AboutUs />} />
-            {/* <Route path="/car-details/${id}" element={<CarShow />} />
-             */}
             <Route path="/car-detail/:id" element={<CarShow />} />
 
 
             //Admin Routes
+            <Route path="/dashboard" element={<Dashboard />} />
 
         </Routes>
     );
