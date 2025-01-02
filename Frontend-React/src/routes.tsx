@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import FeaturedCars from './components/Client/home/FeaturedCars';
 import Home from './pages/Client/Home';
 import Inventory from './pages/Client/Inventory';
 import ContactUs from './pages/Client/contactUs';
@@ -10,6 +9,8 @@ import Login from './pages/Login';
 import SignUp from './pages/Signup';
 
 import Dashboard from './pages/Administrator/Dashboard';
+import Cars from './pages/Administrator/Cars/cars';
+import Users from './pages/Administrator/Users/user';
 
 const AppRoutes: React.FC = () => {
 
@@ -27,6 +28,8 @@ const AppRoutes: React.FC = () => {
 
             //Admin Routes
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/cars" element={<Cars />} />
+            <Route path="/users" element={<Users />} />
 
         </Routes>
     );

@@ -1,8 +1,32 @@
 import Layout from './components/layout';
 import React from 'react';
+import { ResponsiveContainer, BarChart, XAxis, YAxis, Bar, Tooltip } from "recharts";
 
 const data = [
     {
+        name: "Jan",
+        total: Math.floor(Math.random() * 5000) + 1000,
+    },
+    {
+        name: "Feb",
+        total: Math.floor(Math.random() * 5000) + 1000,
+    },
+    {
+        name: "Mar",
+        total: Math.floor(Math.random() * 5000) + 1000,
+    },
+    {
+        name: "Apr",
+        total: Math.floor(Math.random() * 5000) + 1000,
+    },
+    {
+        name: "May",
+        total: Math.floor(Math.random() * 5000) + 1000,
+    },
+    {
+        name: "Jun",
+        total: Math.floor(Math.random() * 5000) + 1000,
+    }, {
         name: "Jan",
         total: Math.floor(Math.random() * 5000) + 1000,
     },
@@ -113,7 +137,7 @@ const Dashboard: React.FC = () => {
                     <p className="text-xs text-muted-foreground">+18 from yesterday</p>
                 </div>
             </div>
-            <div className="mt-6">
+            {/* <div className="mt-6">
                 <div className="border rounded-lg shadow p-4">
                     <div className="pb-2">
                         <h3 className="text-lg font-semibold">Monthly Revenue</h3>
@@ -129,6 +153,49 @@ const Dashboard: React.FC = () => {
                                 <span className="text-xs mt-2">{item.name}</span>
                             </div>
                         ))}
+                    </div>
+                </div>
+            </div> */}
+
+            <div className="mt-6">
+                <div className="card shadow-md rounded-lg p-4 bg-white">
+                    <div className="card-header mb-4">
+                        <h3 className="text-lg font-semibold text-gray-700">Monthly Revenue</h3>
+                    </div>
+                    <div className="card-content">
+                        <ResponsiveContainer width="100%" height={350}>
+                            <BarChart data={data}>
+                                <XAxis
+                                    dataKey="name"
+                                    stroke="#6B7280"
+                                    fontSize={12}
+                                    tickLine={false}
+                                    axisLine={false}
+                                />
+                                <YAxis
+                                    stroke="#6B7280"
+                                    fontSize={12}
+                                    tickLine={false}
+                                    axisLine={false}
+                                    tickFormatter={(value) => `$${value.toLocaleString()}`}
+                                />
+                                <Tooltip
+                                    formatter={(value: number) => `$${value.toLocaleString()}`}
+                                    contentStyle={{
+                                        backgroundColor: "#ffffff",
+                                        border: "1px solid #e5e7eb",
+                                        borderRadius: "8px",
+                                        fontSize: "12px",
+                                    }}
+                                    cursor={{ fill: "#f3f4f6" }}
+                                />
+                                <Bar
+                                    dataKey="total"
+                                    fill="#34D399"
+                                    radius={[4, 4, 0, 0]}
+                                />
+                            </BarChart>
+                        </ResponsiveContainer>
                     </div>
                 </div>
             </div>

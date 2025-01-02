@@ -1,6 +1,4 @@
-'use client'
-
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import Sidebar from './sidebar'
 import TopBar from './top-bar'
 import { Menu } from 'lucide-react'
@@ -8,6 +6,12 @@ import { Menu } from 'lucide-react'
 export default function Layout({ children }: { children: React.ReactNode }) {
     const [sidebarOpen, setSidebarOpen] = useState(true)
     const [isMobile, setIsMobile] = useState(false)
+
+    const closeSidebarOnMobile = useCallback(() => {
+        if (window.innerWidth < 768) {
+            setSidebarOpen(false)
+        }
+    }, [])
 
     useEffect(() => {
         const checkScreenSize = () => {
@@ -21,11 +25,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         return () => window.removeEventListener('resize', checkScreenSize)
     }, [])
 
-    const toggleSidebar = () => setSidebarOpen(!sidebarOpen)
+    const toggleSidebar = useCallback(() => {
+        setSidebarOpen(prev => !prev)
+    }, [])
 
     return (
         <div className="flex h-screen bg-gray-100">
-            <Sidebar isOpen={sidebarOpen} />
+            <Sidebar isOpen={sidebarOpen} closeSidebarOnMobile={closeSidebarOnMobile} />
             <div className="flex flex-col flex-1 overflow-hidden">
                 <TopBar>
                     <button
@@ -35,7 +41,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                         <Menu className="h-6 w-6" />
                     </button>
                 </TopBar>
-                <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100">
+                <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100" onClick={closeSidebarOnMobile}>
                     <div className="container mx-auto px-6 py-8">
                         {children}
                     </div>
@@ -58,4 +64,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </div>
     )
 }
+
+
 
