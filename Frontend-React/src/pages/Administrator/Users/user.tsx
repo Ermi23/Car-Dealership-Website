@@ -265,21 +265,30 @@ export default function UsersPage() {
     return (
         <Layout>
             <div className="container mx-auto px-4 py-6">
-                <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-3xl font-bold tracking-tight">Users</h2>
-                    <button
-                        className="bg-orange-500 text-white py-2 px-4 rounded hover:bg-orange-600"
-                        onClick={() => {
-                            setIsOpen(true);
-                            setCurrentUser({ id: 0, name: '', email: '', password: '', confirm_password: '' });
-                        }}
-                    >
-                        Add User
-                    </button>
-                </div>
-                {isOpen && renderModal()}
-                {deletMondal && renderDeleteModal()}
+
                 <div className="w-full overflow-x-auto">
+                    <div className="flex justify-between items-center mb-6">
+                        <h2 className="text-3xl font-bold tracking-tight">Users</h2>
+                        <div className="flex items-center">
+                            <input
+                                type="text"
+                                placeholder="Search Users"
+                                className="border border-gray-300 rounded py-2 px-4 mr-4 ml-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                            />
+                            <button
+                                className="bg-orange-500 text-white py-2 px-4 rounded hover:bg-orange-600 whitespace-nowrap"
+                                onClick={() => {
+                                    setIsOpen(true);
+                                    setCurrentUser({ id: 0, name: '', email: '', password: '', confirm_password: '' });
+                                }}
+                            >
+                                Add User
+                            </button>
+                        </div>
+                    </div>
+
+                    {isOpen && renderModal()}
+                    {deletMondal && renderDeleteModal()}
                     <table className="w-full border-collapse border border-gray-300">
                         <thead>
                             <tr className="bg-gray-200">
