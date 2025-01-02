@@ -21,7 +21,7 @@ export default function TopBar({ children }: { children?: React.ReactNode }) {
     return (
         <header className="flex items-center justify-between px-6 py-4 bg-white border-b-1 border-gray-200">
             {children}
-            <h1 className="text-xl font-semibold text-gray-800">Dashboard</h1>
+            <h1 className="text-xl font-semibold text-gray-800">Solomon Auto-Sell</h1>
             <div className="flex items-center relative">
                 <div className="mr-4">
                     <Bell className="h-6 w-6 text-gray-500 hover:text-gray-700 cursor-pointer" onClick={toggleNotifications} />
