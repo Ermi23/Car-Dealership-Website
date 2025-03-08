@@ -1,69 +1,75 @@
-import React, { useState, useEffect, useCallback } from 'react'
-import Sidebar from './sidebar'
-import TopBar from './top-bar'
-import { Menu } from 'lucide-react'
+import React, { useState, useEffect, useCallback } from 'react';
+import { useLocation } from 'react-router-dom';
+import Sidebar from './sidebar';
+import TopBar from './top-bar';
+import { Menu } from 'lucide-react';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-    const [sidebarOpen, setSidebarOpen] = useState(true)
-    const [isMobile, setIsMobile] = useState(false)
-
-    const closeSidebarOnMobile = useCallback(() => {
-        if (window.innerWidth < 768) {
-            setSidebarOpen(false)
-        }
-    }, [])
-
-    useEffect(() => {
-        const checkScreenSize = () => {
-            setIsMobile(window.innerWidth < 768)
-            setSidebarOpen(window.innerWidth >= 768)
-        }
-
-        checkScreenSize()
-        window.addEventListener('resize', checkScreenSize)
-
-        return () => window.removeEventListener('resize', checkScreenSize)
-    }, [])
+    const [sidebarOpen, setSidebarOpen] = useState(() => {
+        return window.innerWidth >= 1024;
+    });
+    const [isMobile, setIsMobile] = useState(false);
+    const location = useLocation();
+    const routesWithoutLayout = ['/login', '/sign-up'];
 
     const toggleSidebar = useCallback(() => {
-        setSidebarOpen(prev => !prev)
-    }, [])
+        setSidebarOpen((prev) => !prev);
+    }, []);
+
+    useEffect(() => {
+        const handleResize = () => {
+            const isCurrentlyMobile = window.innerWidth < 1024;
+            setIsMobile(isCurrentlyMobile);
+
+            if (isCurrentlyMobile !== isMobile) {
+                setSidebarOpen(!isCurrentlyMobile);
+            }
+        };
+
+        handleResize();
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, [isMobile]);
+
+    if (routesWithoutLayout.includes(location.pathname)) {
+        return <>{children}</>;
+    }
 
     return (
-        <div className="flex h-screen bg-gray-100">
-            <Sidebar isOpen={sidebarOpen} closeSidebarOnMobile={closeSidebarOnMobile} />
-            <div className="flex flex-col flex-1 overflow-hidden">
-                <TopBar>
-                    <button
-                        className="md:hidden"
-                        onClick={toggleSidebar}
+        <div className="flex h-screen overflow-hidden bg-gray-100">
+            {/* Sidebar */}
+            <aside
+                className={`fixed lg:relative inset-y-0 left-0 z-40 w-64 transform 
+                    transition-transform duration-300 ease-in-out
+                    ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}
+            >
+                <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+            </aside>
+
+            {/* Overlay */}
+            {isMobile && sidebarOpen && (
+                <div
+                    className="fixed inset-0 bg-gray-900/50 z-30 lg:hidden"
+                    onClick={() => setSidebarOpen(false)}
+                />
+            )}
+
+            {/* Main Content */}
+            <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+                <TopBar
+                    onSidebarToggle={toggleSidebar}
+                    isSidebarOpen={sidebarOpen}
+                    isMobile={isMobile}
+                />
+
+                <main className="flex-1 overflow-y-auto bg-gray-100">
+                    <div className={`container mx-auto px-4 sm:px-6 lg:px-8 py-8 transition-all duration-300
+                        ${sidebarOpen ? 'lg:ml-0' : 'lg:ml-0'}`}
                     >
-                        <Menu className="h-6 w-6" />
-                    </button>
-                </TopBar>
-                <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100" onClick={closeSidebarOnMobile}>
-                    <div className="container mx-auto px-6 py-8">
                         {children}
                     </div>
                 </main>
             </div>
-            <button
-                className={`fixed bottom-4 ${sidebarOpen ? 'left-64' : 'left-4'} z-50 rounded-full shadow-md transition-all duration-300 ease-in-out hidden md:flex`}
-                onClick={toggleSidebar}
-            >
-                {sidebarOpen ? (
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-                    </svg>
-                ) : (
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                    </svg>
-                )}
-            </button>
         </div>
-    )
+    );
 }
-
-
-

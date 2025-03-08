@@ -42,6 +42,8 @@ export default function LoginPage() {
 
             // Store the Bearer token in local storage or state
             localStorage.setItem('token', response.data.token); // Adjust based on your response structure
+            // Save user data to localStorage or a global state
+            localStorage.setItem('user', JSON.stringify(response.data));
 
             // Redirect to dashboard after successful login
             window.location.href = '/dashboard';
@@ -50,7 +52,7 @@ export default function LoginPage() {
             console.error('Login failed:', error.response?.data || error.message);
 
             // Set error message to state
-            setLoginError(error.response?.data?.message || 'An error occurred. Please try again.');
+            setLoginError('An error occurred. Please try again.');
         } finally {
             setIsLoading(false); // Stop the loading indicator
         }

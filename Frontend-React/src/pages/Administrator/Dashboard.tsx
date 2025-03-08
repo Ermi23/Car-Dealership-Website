@@ -1,4 +1,4 @@
-import Layout from './components/layout';
+import Layout from './components/Layout';
 import React from 'react';
 import { ResponsiveContainer, BarChart, XAxis, YAxis, Bar, Tooltip } from "recharts";
 
@@ -54,7 +54,7 @@ const data = [
 
 const Dashboard: React.FC = () => {
     return (
-        <Layout>
+        <>
             <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mt-6">
                 <div className="border rounded-lg shadow p-4">
@@ -199,7 +199,7 @@ const Dashboard: React.FC = () => {
                     </div>
                 </div>
             </div>
-        </Layout>
+        </>
     );
 };
 

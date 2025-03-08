@@ -31,7 +31,8 @@ class VehicleModelController extends Controller
      */
     public function store(StoreVehicleModelRequest $request)
     {
-        //
+        $vehicleModel = VehicleModel::create($request->validated());
+        return new VehicleModelResource($vehicleModel);
     }
 
     /**
@@ -39,7 +40,7 @@ class VehicleModelController extends Controller
      */
     public function show(VehicleModel $vehicleModel)
     {
-        //
+        return new VehicleModelResource($vehicleModel);
     }
 
     /**
@@ -47,7 +48,8 @@ class VehicleModelController extends Controller
      */
     public function update(UpdateVehicleModelRequest $request, VehicleModel $vehicleModel)
     {
-        //
+        $vehicleModel->update($request->validated());
+        return new VehicleModelResource($vehicleModel);
     }
 
     /**
@@ -55,6 +57,10 @@ class VehicleModelController extends Controller
      */
     public function destroy(VehicleModel $vehicleModel)
     {
-        //
+        $vehicleModel->delete();
+        return response()->json([
+            'status' => 200,
+            'message' => 'Vehicle model deleted successfully',
+        ]);
     }
 }

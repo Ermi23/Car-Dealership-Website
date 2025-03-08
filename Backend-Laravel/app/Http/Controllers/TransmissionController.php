@@ -15,7 +15,9 @@ class TransmissionController extends Controller
      */
     public function index(Request $request)
     {
-        //
+        $perPage = $request->input('per_page', 10);
+        $brandName = Transmission::paginate($perPage);
+        return TransmissionResource::collection($brandName);
     }
 
     public function dropdown(Request $request)

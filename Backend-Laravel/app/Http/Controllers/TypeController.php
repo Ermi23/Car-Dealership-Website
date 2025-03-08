@@ -31,7 +31,8 @@ class TypeController extends Controller
      */
     public function store(StoreTypeRequest $request)
     {
-        //
+        $type = Type::create($request->validated());
+        return new TypeResource($type);
     }
 
     /**
@@ -39,7 +40,7 @@ class TypeController extends Controller
      */
     public function show(Type $type)
     {
-        //
+        return new TypeResource($type);
     }
 
     /**
@@ -47,7 +48,8 @@ class TypeController extends Controller
      */
     public function update(UpdateTypeRequest $request, Type $type)
     {
-        //
+        $type->update($request->validated());
+        return new TypeResource($type);
     }
 
     /**
@@ -55,6 +57,10 @@ class TypeController extends Controller
      */
     public function destroy(Type $type)
     {
-        //
+        $type->delete();
+        return response()->json([
+            'status' => 200,
+            'message' => 'Type deleted successfully',
+        ]);
     }
 }

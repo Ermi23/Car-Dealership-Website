@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import Layout from '../components/layout';
 import apiClient from '../../../api/axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import Pagination from './../components/pagination'; // Import the Pagination component
 import 'react-toastify/dist/ReactToastify.css';
 
 // toast.configure();
@@ -20,6 +20,7 @@ export default function UsersPage() {
     const [paginationMeta, setPaginationMeta] = useState<any>(null);
     const [isOpen, setIsOpen] = useState(false);
     const [deletMondal, setDeletMondal] = useState(false);
+    const usersPerPage = 10;
     const [currentUser, setCurrentUser] = useState({
         id: 0,
         name: '',
@@ -30,9 +31,12 @@ export default function UsersPage() {
     const navigate = useNavigate();
     const [currentPage, setCurrentPage] = useState<number>(1);
 
+    // useEffect(() => {
+    //     fetchUsers();
+    // }, []);
     useEffect(() => {
         fetchUsers();
-    }, []);
+    }, [currentPage]); // Add currentPage as a dependency
 
     const fetchUsers = async () => {
         setLoading(true);
@@ -100,16 +104,27 @@ export default function UsersPage() {
     };
 
     const renderModal = () => (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
-            <div className="bg-white rounded shadow-lg w-full max-w-md p-6">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50 overflow-y-auto">
+            <div className="bg-white rounded-lg shadow-xl w-full max-w-md p-6 m-4 relative transform transition-all">
                 <h3 className="text-xl font-bold mb-4">
                     {currentUser.id === 0 ? 'Add User' : 'Edit User'}
                 </h3>
-                <br></br>
-                <form onSubmit={handleSubmit}>
+
+                <div className="relative mb-6">
+                    <div className="absolute inset-0 flex items-center">
+                        <div className="w-full border-t border-gray-300"></div>
+                    </div>
+                    <div className="relative flex justify-center">
+                        <span className="px-3 bg-white text-gray-500 text-sm font-medium">
+                            {currentUser.id === 0 ? 'New Entry' : 'Update Details'}
+                        </span>
+                    </div>
+                </div>
+
+                <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="space-y-4">
-                        <div>
-                            <label htmlFor="name" className="block text-sm font-medium">
+                        <div className="group">
+                            <label htmlFor="name" className="block text-sm font-semibold text-gray-700">
                                 User Name
                             </label>
                             <input
@@ -119,12 +134,14 @@ export default function UsersPage() {
                                 onChange={(e) =>
                                     setCurrentUser({ ...currentUser, name: e.target.value })
                                 }
-                                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500"
+                                placeholder="User Name"
+                                className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm 
+                                focus:ring-orange-500 focus:border-orange-500 transition-colors duration-200"
                                 required
                             />
                         </div>
                         <div>
-                            <label htmlFor="email" className="block text-sm font-medium">
+                            <label htmlFor="email" className="block text-sm font-semibold text-gray-700">
                                 Email
                             </label>
                             <input
@@ -134,12 +151,14 @@ export default function UsersPage() {
                                 onChange={(e) =>
                                     setCurrentUser({ ...currentUser, email: e.target.value })
                                 }
-                                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500"
+                                placeholder="User Email"
+                                className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm 
+                                focus:ring-orange-500 focus:border-orange-500 transition-colors duration-200"
                                 required
                             />
                         </div>
                         <div>
-                            <label htmlFor="password" className="block text-sm font-medium">
+                            <label htmlFor="password" className="block text-sm font-semibold text-gray-700">
                                 Password
                             </label>
                             <input
@@ -149,12 +168,14 @@ export default function UsersPage() {
                                 onChange={(e) =>
                                     setCurrentUser({ ...currentUser, password: e.target.value })
                                 }
-                                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500"
+                                placeholder="User Password"
+                                className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm 
+                                focus:ring-orange-500 focus:border-orange-500 transition-colors duration-200"
                                 required={!currentUser.id}
                             />
                         </div>
                         <div>
-                            <label htmlFor="confirm_password" className="block text-sm font-medium">
+                            <label htmlFor="confirm_password" className="block text-sm font-semibold text-gray-700">
                                 Confirm Password
                             </label>
                             <input
@@ -164,7 +185,9 @@ export default function UsersPage() {
                                 onChange={(e) =>
                                     setCurrentUser({ ...currentUser, confirm_password: e.target.value })
                                 }
-                                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500"
+                                placeholder="Confirm Password"
+                                className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm 
+                                focus:ring-orange-500 focus:border-orange-500 transition-colors duration-200"
                                 required={!currentUser.id}
                             />
                         </div>
@@ -193,7 +216,18 @@ export default function UsersPage() {
         <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
             <div className="bg-white rounded shadow-lg w-full max-w-md p-6">
                 <h3 className="text-xl font-bold mb-4"> Delete User </h3>
-                <br></br>
+
+                <div className="relative mb-6">
+                    <div className="absolute inset-0 flex items-center">
+                        <div className="w-full border-t border-gray-300"></div>
+                    </div>
+                    <div className="relative flex justify-center">
+                        <span className="px-3 bg-white text-gray-500 text-sm font-medium">
+                            {'Delete User'}
+                        </span>
+                    </div>
+                </div>
+
                 <form onSubmit={handleDeletSubmit}>
                     <div className="space-y-4">
                         <div>
@@ -225,33 +259,9 @@ export default function UsersPage() {
     const handlePageChange = (url: string) => {
         const pageParam = new URL(url).searchParams.get('page');
         if (pageParam) {
-            setCurrentPage(Number(pageParam)); // Update the current page
+            const newPage = Number(pageParam);
+            setCurrentPage(newPage); // Set the current page
         }
-    };
-
-    const renderPagination = () => {
-        if (!paginationMeta) return null;
-
-        return (
-            <nav className="flex justify-center mt-8" aria-label="Pagination">
-                <ul className="inline-flex items-center -space-x-px">
-                    {paginationMeta.links.map((link: any, index: number) => (
-                        <li key={index}>
-                            <button
-                                onClick={() => link.url && handlePageChange(link.url)}
-                                className={`px-3 py-2 leading-tight ${link.active
-                                    ? 'z-10 bg-orange-600 text-white border border-orange-600'
-                                    : 'text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700'
-                                    } ${index === 0 ? 'rounded-l-lg' : ''} ${index === paginationMeta.links.length - 1 ? 'rounded-r-lg' : ''
-                                    }`}
-                                disabled={!link.url}
-                                dangerouslySetInnerHTML={{ __html: link.label }}
-                            />
-                        </li>
-                    ))}
-                </ul>
-            </nav>
-        );
     };
 
     if (loading) {
@@ -263,17 +273,18 @@ export default function UsersPage() {
     }
 
     return (
-        <Layout>
-            <div className="container mx-auto px-4 py-6">
+        <div className="container mx-auto mr-12">
+            <div className="bg-gray-50 rounded-lg shadow-lg p-2">
 
-                <div className="w-full overflow-x-auto">
-                    <div className="flex justify-between items-center mb-6">
-                        <h2 className="text-3xl font-bold tracking-tight">Users</h2>
-                        <div className="flex items-center">
+                <div className="w-full overflow-hidden bg-white rounded-lg shadow">
+                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center p-6 border-b">
+                        <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4 md:mb-0">Users</h2>
+                        <div className="flex flex-col sm:flex-row items-stretch sm:items-center w-full md:w-auto space-y-2 sm:space-y-0 sm:space-x-4">
                             <input
                                 type="text"
                                 placeholder="Search Users"
-                                className="border border-gray-300 rounded py-2 px-4 mr-4 ml-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                                className="flex-grow sm:flex-grow-0 border border-gray-300 rounded-md py-2 px-4 
+                            focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                             />
                             <button
                                 className="bg-orange-500 text-white py-2 px-4 rounded hover:bg-orange-600 whitespace-nowrap"
@@ -289,61 +300,85 @@ export default function UsersPage() {
 
                     {isOpen && renderModal()}
                     {deletMondal && renderDeleteModal()}
-                    <table className="w-full border-collapse border border-gray-300">
-                        <thead>
-                            <tr className="bg-gray-200">
-                                <th className="border border-gray-300 px-4 py-2 items-center">Name</th>
-                                <th className="border border-gray-300 px-4 py-2 items-center">Email</th>
-                                <th className="border border-gray-300 px-4 py-2 items-center">Created At</th>
-                                <th className="border border-gray-300 px-4 py-2 items-center">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {users.map((user) => (
-                                <tr key={user.id} className="hover:bg-gray-100">
-                                    <td className="border border-gray-300 px-4 py-2 items-center">{user.name}</td>
-                                    <td className="border border-gray-300 px-4 py-2 items-center">{user.email}</td>
-                                    <td className="border border-gray-300 px-4 py-2 items-center">{user.created_at}</td>
-                                    <td className="border border-gray-300 px-4 py-2 items-center">
-                                        <button
-                                            className="text-blue-700 hover:underline mr-2 items-center"
-                                            onClick={() => {
-                                                setIsOpen(true);
-                                                setCurrentUser({
-                                                    id: user.id,
-                                                    name: user.name,
-                                                    email: user.email,
-                                                    password: '',
-                                                    confirm_password: '',
-                                                });
-                                            }}
-                                        >
-                                            Edit
-                                        </button>
 
-                                        <button
-                                            className="text-red-500 hover:underline mr-2 items-center"
-                                            onClick={() => {
-                                                setDeletMondal(true);
-                                                setCurrentUser({
-                                                    id: user.id,
-                                                    name: user.name,
-                                                    email: user.email,
-                                                    password: '',
-                                                    confirm_password: '',
-                                                });
-                                            }}
-                                        >
-                                            Delete
-                                        </button>
-                                    </td>
+                    <div className="overflow-x-auto">
+                        <table className="w-full border-collapse border border-gray-300">
+                            <thead>
+                                <tr className="bg-gray-200">
+
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created At</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {users.map((user, index) => (
+
+                                    <tr key={user.id} className="hover:bg-gray-50 transition-colors duration-150">
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                            {(currentPage - 1) * usersPerPage + index + 1}
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{user.name}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{user.email}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{user.created_at}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                            <div className="flex flex-wrap gap-2">
+                                                <button
+                                                    className="inline-flex items-center px-3 py-1.5 bg-blue-50 border border-blue-300 text-blue-600 
+                                                rounded-md text-sm font-medium hover:bg-blue-100 transition-colors duration-200 
+                                                focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                                                    onClick={() => {
+                                                        setIsOpen(true);
+                                                        setCurrentUser({
+                                                            id: user.id,
+                                                            name: user.name,
+                                                            email: user.email,
+                                                            password: '',
+                                                            confirm_password: '',
+                                                        });
+                                                    }}
+                                                >
+                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                                    </svg>
+                                                    {/* <span>Edit</span> */}
+                                                </button>
+
+                                                <button
+                                                    className="inline-flex items-center px-3 py-1.5 bg-red-50 border border-red-300 text-red-600 
+                                                rounded-md text-sm font-medium hover:bg-red-100 transition-colors duration-200
+                                                focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                                                    onClick={() => {
+                                                        setDeletMondal(true);
+                                                        setCurrentUser({
+                                                            id: user.id,
+                                                            name: user.name,
+                                                            email: user.email,
+                                                            password: '',
+                                                            confirm_password: '',
+                                                        });
+                                                    }}
+                                                >
+                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                    </svg>
+                                                    {/* <span>Delete</span> */}
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                {renderPagination()}
+                {/* Pagination component with improved styling */}
+                <div className="mt-6">
+                    <Pagination paginationMeta={paginationMeta} onPageChange={handlePageChange} />
+                </div>
             </div>
-        </Layout>
+        </div>
     );
 }

@@ -13,9 +13,11 @@ class CylinderController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $perPage = $request->input('per_page', 10);
+        $cylinder = Cylinder::paginate($perPage);
+        return CylinderResource::collection($cylinder);
     }
 
     public function dropdown(Request $request)
@@ -29,7 +31,8 @@ class CylinderController extends Controller
      */
     public function store(StoreCylinderRequest $request)
     {
-        //
+        $cylinder = Cylinder::create($request->validated());
+        return new CylinderResource($cylinder);
     }
 
     /**
@@ -37,7 +40,7 @@ class CylinderController extends Controller
      */
     public function show(Cylinder $cylinder)
     {
-        //
+        return new CylinderResource($cylinder);
     }
 
     /**
@@ -45,7 +48,8 @@ class CylinderController extends Controller
      */
     public function update(UpdateCylinderRequest $request, Cylinder $cylinder)
     {
-        //
+        $cylinder->update($request->validated());
+        return new CylinderResource($cylinder);
     }
 
     /**
@@ -53,6 +57,10 @@ class CylinderController extends Controller
      */
     public function destroy(Cylinder $cylinder)
     {
-        //
+        $cylinder->delete();
+        return response()->json([
+            'status' => 200,
+            'message' => 'Cylinder deleted successfully',
+        ]);
     }
 }

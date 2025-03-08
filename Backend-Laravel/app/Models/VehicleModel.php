@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class VehicleModel extends Model
 {
+    use HasFactory;
+    protected $fillable = ['name', 'description'];
     /** @use HasFactory<\Database\Factories\ModelFactory> */
     use HasFactory;
     public function brandName()

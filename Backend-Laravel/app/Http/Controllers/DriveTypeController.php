@@ -31,7 +31,8 @@ class DriveTypeController extends Controller
      */
     public function store(StoreDriveTypeRequest $request)
     {
-        //
+        $driveType = DriveType::create($request->validated());
+        return new DriveTypeResource($driveType);
     }
 
     /**
@@ -39,7 +40,7 @@ class DriveTypeController extends Controller
      */
     public function show(DriveType $driveType)
     {
-        //
+        return new DriveTypeResource($driveType);
     }
 
     /**
@@ -47,7 +48,8 @@ class DriveTypeController extends Controller
      */
     public function update(UpdateDriveTypeRequest $request, DriveType $driveType)
     {
-        //
+        $driveType->update($request->validated());
+        return new DriveTypeResource($driveType);
     }
 
     /**
@@ -55,6 +57,10 @@ class DriveTypeController extends Controller
      */
     public function destroy(DriveType $driveType)
     {
-        //
+        $driveType->delete();
+        return response()->json([
+            'status' => 200,
+            'message' => 'Drive type deleted successfully',
+        ]);
     }
 }

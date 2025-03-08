@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import Layout from '../components/layout';
+import Layout from '../components/Layout';
 
 interface Car {
     id: number
@@ -29,7 +29,7 @@ export default function CarsPage() {
     }
 
     return (
-        <Layout>
+        <>
             <div className="container mx-auto px-4 py-6">
                 <div className="flex justify-between items-center mb-6">
                     <h2 className="text-3xl font-bold tracking-tight">Cars</h2>
@@ -155,7 +155,6 @@ export default function CarsPage() {
                     </tbody>
                 </table>
             </div>
-        </Layout>
-
+        </>
     )
 }

@@ -22,8 +22,8 @@ class UpdateCarStatusRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'car_detail_id' => ['required', 'exists:car_details,id'],
-            'safty_feature_id' => ['required', 'exists:safty_features,id'], // Change as needed
+            'name' => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string', 'max:255'],
         ];
     }
 }

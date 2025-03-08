@@ -7,8 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class CarImage extends Model
 {
-    /** @use HasFactory<\Database\Factories\CarImageFactory> */
     use HasFactory;
+    protected $fillable = ['image', 'car_detail_id'];
+    /** @use HasFactory<\Database\Factories\CarImageFactory> */
     public function carDetail()
     {
         return $this->belongsTo(CarDetail::class, 'car_detail_id');

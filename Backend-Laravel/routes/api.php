@@ -153,4 +153,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('car-detail-safty-features/{carDetailSaftyFeature}', [CarDetailSaftyFeatureController::class, 'show'])->name('car-detail-safty-features.show');
     Route::put('car-detail-safty-features/{carDetailSaftyFeature}', [CarDetailSaftyFeatureController::class, 'update'])->name('car-detail-safty-features.update');
     Route::delete('car-detail-safty-features/{carDetailSaftyFeature}', [CarDetailSaftyFeatureController::class, 'destroy'])->name('car-detail-safty-features.destroy');
+
+    Route::get('contact-us', [contactUsContriller::class, 'index'])->name('contact-us.index');
+    Route::get('contact-us/{contactUs}', [contactUsContriller::class, 'show'])->name('contact-us.show');
+    Route::put('contact-us/{contactUs}', [contactUsContriller::class, 'update'])->name('contact-us.update');
+    Route::delete('contact-us/{contactUs}', [contactUsContriller::class, 'destroy'])->name('contact-us.destroy');
 });

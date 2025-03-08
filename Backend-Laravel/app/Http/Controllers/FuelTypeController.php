@@ -22,8 +22,8 @@ class FuelTypeController extends Controller
 
     public function dropdown(Request $request)
     {
-        $brandName = FuelType::all();
-        return FeulTypeResource::collection($brandName);
+        $fuelType = FuelType::all();
+        return FeulTypeResource::collection($fuelType);
     }
 
     /**

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\contactUs;
+use Illuminate\Http\Request;
+use App\Http\Resources\ContactUsResource;
 use App\Http\Requests\StorecontactUsRequest;
 use App\Http\Requests\UpdatecontactUsRequest;
 
@@ -11,9 +13,11 @@ class contactUsContriller extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $perPage = $request->input('per_page', 10);
+        $contactUs = ContactUs::paginate($perPage);
+        return ContactUsResource::collection($contactUs);
     }
 
     /**
@@ -50,6 +54,7 @@ class contactUsContriller extends Controller
      */
     public function destroy(contactUs $contactUs)
     {
-        //
+        $contactUs->delete();
+        return response()->json(['message' => 'Message deleted successfully!']);
     }
 }
