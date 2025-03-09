@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CarImage;
 use App\Models\CarDetail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\CarDetailResource;
 use App\Http\Requests\StoreCarDetailRequest;
 use App\Http\Requests\UpdateCarDetailRequest;
@@ -56,7 +59,65 @@ class CarDetailController extends Controller
      */
     public function store(StoreCarDetailRequest $request)
     {
-        //
+        DB::beginTransaction();
+
+        try {
+            // Create the car detail
+            $carDetail = CarDetail::create([
+                'name' => $request->name,
+                'vehicle_model_id' => $request->vehicle_model_id,
+                'type_id' => $request->type_id,
+                'drive_type_id' => $request->drive_type_id,
+                'fuel_type_id' => $request->fuel_type_id,
+                'transmission_id' => $request->transmission_id,
+                'cylinder_id' => $request->cylinder_id,
+                'car_status_id' => $request->car_status_id,
+                'door' => $request->door,
+                'mileage' => $request->mileage,
+                'price' => $request->price,
+                'color' => $request->color,
+                'year' => $request->year,
+                'sold' => $request->sold,
+                'feature_ad' => $request->feature_ad,
+            ]);
+
+            // Handle images
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $index => $image) {
+                    // Store the image in the 'public' disk under the 'car_images' directory
+                    $imagePath = Storage::disk('public')->put('car_images', $image);
+
+                    // Generate the full URL for the stored image
+                    $imageUrl = asset('storage/' . $imagePath);
+
+                    // Create the car image record with the image URL
+                    CarImage::create([
+                        'car_detail_id' => $carDetail->id,
+                        'image_url' => $imageUrl, // Save the full URL
+                        'primary' => $index === 0, // Set primary to true for the first image
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+                }
+            }
+
+            // Handle features
+            if ($request->has('features')) {
+                $carDetail->features()->attach($request->features);
+            }
+
+            // Handle safety features
+            if ($request->has('safety_features')) {
+                $carDetail->safetyFeatures()->attach($request->safety_features);
+            }
+
+            DB::commit();
+
+            return response()->json(['message' => 'Car detail stored successfully'], 201);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => 'Failed to store car detail', 'error' => $e->getMessage()], 500);
+        }
     }
 
     /**

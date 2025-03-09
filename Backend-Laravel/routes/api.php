@@ -119,6 +119,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('cylinders/{cylinder}', [CylinderController::class, 'destroy'])->name('cylinders.destroy');
 
     Route::get('safty-features', [SaftyFeatureController::class, 'index'])->name('safty-features.index');
+    Route::get('safety-features', [SaftyFeatureController::class, 'index'])->name('safety-features.index');
     Route::post('safty-features', [SaftyFeatureController::class, 'store'])->name('safty-features.store');
     Route::get('safty-features/{saftyFeature}', [SaftyFeatureController::class, 'show'])->name('safty-features.show');
     Route::put('safty-features/{saftyFeature}', [SaftyFeatureController::class, 'update'])->name('safty-features.update');

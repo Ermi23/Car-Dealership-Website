@@ -9,6 +9,27 @@ class CarDetail extends Model
 {
     /** @use HasFactory<\Database\Factories\CarDetailFactory> */
     use HasFactory;
+
+    protected $fillable = [
+        'name',
+        'vehicle_model_id',
+        'type_id',
+        'drive_type_id',
+        'fuel_type_id',
+        'transmission_id',
+        'cylinder_id',
+        'car_status_id',
+        'door',
+        'mileage',
+        'price',
+        'color',
+        'year',
+        'sold',
+        'feature_ad',
+        'created_at',
+        'updated_at',
+    ];
+
     public function vehicleModel()
     {
         return $this->belongsTo(VehicleModel::class, 'vehicle_model_id');

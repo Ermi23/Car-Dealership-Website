@@ -37,6 +37,12 @@ class StoreCarDetailRequest extends FormRequest
             'year' => ['required', 'integer', 'digits:4', 'min:1900', 'max:' . date('Y')],
             'sold' => ['required', 'boolean'],
             'feature_ad' => ['required', 'boolean'],
+            'images' => ['required', 'array'],
+            'images.*' => ['image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+            'features' => ['sometimes', 'array'],
+            'features.*' => ['exists:features,id'],
+            'safety_features' => ['sometimes', 'array'],
+            'safety_features.*' => ['exists:safty_features,id'],
         ];
     }
 }
